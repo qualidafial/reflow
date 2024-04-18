@@ -194,3 +194,69 @@ f.Close()
 
 fmt.Println(f.String())
 ```
+
+## Truncating trailing columns
+
+The `truncate` package lets you truncate lines of text to some maximum
+printable width. Content beyond the specified width is dropped. 
+
+```go
+import "github.com/muesli/reflow/truncate"
+
+s := truncate.String("Hello, world", 5)
+fmt.Println(s)
+```
+
+Result: `Hello`
+
+A "tail" may also be provided, e.g. to provide a visual indication of when a
+line has been truncated: 
+
+```go
+s := truncate.StringWithTail("Hello, world", 6, "…")
+fmt.Println(s)
+```
+
+Result: `Hello…`
+
+There is also a truncating Writer, which is compatible with the `io.Writer`
+interface:
+
+```go
+w := truncate.NewWriter(width, "…")
+w.Write(b)
+fmt.Println(f.String())
+```
+
+## Skipping leading columns
+
+The `skip` package lets you skip some number of columns from the start of a
+line of text. Content before the before the given width is dropped.
+
+```go
+import "github.com/muesli/reflow/skip"
+
+s := skip.String("Hello, world", 7)
+fmt.Println(s)
+```
+
+Result: `world`
+
+A prefix may also be provided, e.g. to provide a visual indication of when part
+of a line has been skipped:
+
+```go
+s := skip.StringWithPrefix("Hello, world", 5, "…")
+fmt.Println(s)
+```
+
+Result: `… world`
+
+There is also a skipping Writer, which is compatible with the `io.Writer`
+interface:
+
+```go
+w := skip.NewWriter(width, "…")
+w.Write(b)
+fmt.Println(f.String())
+```
